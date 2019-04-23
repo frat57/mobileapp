@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">YazLab2</string>
+    <string name="title">Title</string>
+    <string name="haberin_i_eri_i">Haberin içeriği</string>
+    <string name="todo">TODO</string>
+    <string name="spor_haberleri">Spor Haberleri</string>
+    <string name="spor">spor</string>
+    <string name="button">Button</string>
+    <string name="tus">tus</string>
+    <string name="_23_nisan_2019" />
+    <string name="Title" />
+    <string name="desc" />
+    <string name="to_do" />
+    <string name="source" />
+    <string-array name="HaberTürleri">
+        <item name="Home">Ana Sayfa</item>
+        <item name="Trend">Gündem Haberleri</item>
+        <item name="Magazin">Magazin Haberleri</item>
+        <item name="Ekonomi">Ekonomi Haberleri</item>
+        <item name="Spor">Spor Haberleri</item>
+    </string-array>
+</resources>
