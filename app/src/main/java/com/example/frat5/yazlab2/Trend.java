@@ -36,10 +36,10 @@ public class Trend extends AppCompatActivity {
                 }
                 else{
                     String item = parent.getItemAtPosition(position).toString();
-                    if(parent.getItemAtPosition(position).equals("Home")){
+                    if(parent.getItemAtPosition(position).equals("AnaSayfa")){
                         openHome();//Ana Sayfa
                     }
-                    if(parent.getItemAtPosition(position).equals("World")){
+                    if(parent.getItemAtPosition(position).equals("Dünya")){
                         openWorld();//Dünya sayfasi
                     }
                     if(parent.getItemAtPosition(position).equals("Ekonomi")){

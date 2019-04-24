@@ -36,10 +36,10 @@ public class World extends AppCompatActivity {
                 }
                 else{
                     String item = parent.getItemAtPosition(position).toString();
-                    if(parent.getItemAtPosition(position).equals("Home")){
+                    if(parent.getItemAtPosition(position).equals("AnaSayfa")){
                         openHome();//Ana Sayfa
                     }
-                    if(parent.getItemAtPosition(position).equals("Trend")){
+                    if(parent.getItemAtPosition(position).equals("Gündem")){
                         openTrend();//Gundem ler sayfasi
                     }
                     if(parent.getItemAtPosition(position).equals("Ekonomi")){

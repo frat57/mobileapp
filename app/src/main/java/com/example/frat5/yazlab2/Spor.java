@@ -40,10 +40,10 @@ public class Spor extends AppCompatActivity {
                     if(parent.getItemAtPosition(position).equals("Home")){
                         openHome();//Ana Sayfa
                     }
-                    if(parent.getItemAtPosition(position).equals("Trend")){
+                    if(parent.getItemAtPosition(position).equals("Gündem")){
                         openTrend();//Gundem ler sayfasi
                     }
-                    if(parent.getItemAtPosition(position).equals("World")){
+                    if(parent.getItemAtPosition(position).equals("Dünya")){
                         openWorld();//Dünya sayfasi
                     }
                     if(parent.getItemAtPosition(position).equals("Ekonomi")){
