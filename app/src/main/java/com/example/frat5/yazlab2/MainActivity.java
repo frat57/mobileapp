@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner mySpinner;
     private TextView text;
     int[] sampleImages = {R.drawable.at, R.drawable.kedi, R.drawable.kopek, R.drawable.kunduz, R.drawable.sincap};
+    final static String URL="http://192.168.1.104:8080/api/10news/1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         mySpinner = (Spinner) findViewById(R.id.spinner);
         text = (TextView) findViewById(R.id.title);
-        new arkaPlan().execute();
+        new arkaPlan().execute(URL);
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -116,33 +117,25 @@ public class MainActivity extends AppCompatActivity {
         Intent intent =new Intent(this,Spor.class);
         startActivity(intent);
     }
+
     class arkaPlan extends AsyncTask<String,String,String>{
         protected String doInBackground(String... params) {
             try {
             URL url = null;
-            String response = null;
-            String parameters = "id=1";
-            url = new URL("http://192.168.1.104:8080/api/10news/1");
+            url = new URL(params[0]);
             //create the connection
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             String line = "";
             //create your inputsream
-            InputStreamReader isr = new InputStreamReader(
-                    connection.getInputStream());
+            InputStreamReader isr = new InputStreamReader(connection.getInputStream());
             //read in the data from input stream, this can be done a variety of ways
             BufferedReader reader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
-                text.setText("Gorkem we did it!!");
-                System.out.println("1");
+                text.setText(sb.append(getTitle()));
             }
-            //get the string version of the response data
-            response = sb.toString();
-            //do what you want with the data now
-
-            //always remember to close your input and output streams
             isr.close();
             reader.close();
         } catch (IOException e) {
@@ -152,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         }
-        protected void onPostExecute(String s){
-
+        protected void onPostExecute(String data){
         }
     }
