@@ -1,16 +1,16 @@
 package com.example.frat5.yazlab2;
 
 public class Haberler {
-    private int id,like_number,disslike_number,view_count;
+    private int id,like_number,dislike_number,view_count;
     private String name;
 
     public Haberler(){
 
     }
-    public Haberler(int id, int like_number, int disslike_number, int view_count, String name, String content, String type, String image_link) {
+    public Haberler(int id, int like_number, int dislike_number, int view_count, String name, String content, String type, String image_link) {
         this.id = id;
         this.like_number = like_number;
-        this.disslike_number = disslike_number;
+        this.dislike_number = dislike_number;
         this.view_count = view_count;
         this.name = name;
         this.content = content;
@@ -35,11 +35,11 @@ public class Haberler {
     }
 
     public int getDisslike_number() {
-        return disslike_number;
+        return dislike_number;
     }
 
     public void setDisslike_number(int disslike_number) {
-        this.disslike_number = disslike_number;
+        this.dislike_number = disslike_number;
     }
 
     public int getView_count() {

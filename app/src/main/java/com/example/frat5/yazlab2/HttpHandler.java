@@ -30,11 +30,10 @@ public class HttpHandler {
     }
     private String convertStreamToString(InputStream is){
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
         String satir = "";
         try{
             while((satir = reader.readLine())!=null){
-                sb.append(satir).append("\n");
+                return satir;
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -44,7 +43,7 @@ public class HttpHandler {
             }catch (IOException e)  {
 
             }
-        }return sb.toString();
+        }return null;
     }
 
 }

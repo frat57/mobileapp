@@ -32,12 +32,14 @@ public class MainActivity extends AppCompatActivity {
     private Spinner mySpinner;
     private TextView text;
     int[] sampleImages = {R.drawable.at, R.drawable.kedi, R.drawable.kopek, R.drawable.kunduz, R.drawable.sincap};
-    final static String URL="http://192.168.1.104:8080/api/10news/1";
+    private String URL="api/10news/1";
     ArrayList<Haberler>haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String urlPrefix = getResources().getString(R.string.url_prefix);
+        URL = urlPrefix + URL;
         ArrayList <String> names  = new ArrayList<>();
         names.add(0,"AnaSayfa");
         names.add("Gündem");
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        haberlerArrayList = new ArrayList<Haberler>();
         adapter = new HaberlerAdapter(this,haberlerArrayList);
         recyclerView.setAdapter(adapter);
         text = (TextView) findViewById(R.id.title);
@@ -130,31 +133,25 @@ public class MainActivity extends AppCompatActivity {
             String jsonString = httpHandler.makeServiceCall(URL);
 
             Log.d("JSON_RESPONSE",jsonString);
-            if(jsonString !=  null){
+            if(jsonString !=  null ){
                 try {
-                    System.out.println("Burdayim");
-                    JSONObject jsonObject = new JSONObject(jsonString);
-                    System.out.println("Burdayim2");
-                    JSONArray haberler = jsonObject.getJSONArray("news");
-                    System.out.println("Burdayim3");
-                    //id ler icin hepsini alıyoruz
-                    for (int i = 0; i <haberler.length() ; i++) {
-                        JSONObject haber = haberler.getJSONObject(i);
-
-                        int id =  haber.getInt("id");
-                        String title = haber.getString("name");
-                        String content = haber.getString("content");
-                        String type = haber.getString("type");
-                        String image_link = haber.getString("image_link");
-                        int like_number = haber.getInt("like_number");
-                        int disslike_number =  haber.getInt("disslike_number");
-                        int view_count = haber.getInt("view_count");
-                        Haberler haberlerim = new Haberler(id,like_number,disslike_number,
+                    JSONArray array = new JSONArray(jsonString);
+                    for(int i=0; i< array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        int id =  object.getInt("id");
+                        String title = object.getString("name");
+                        String content = object.getString("content");
+                        String type = object.getString("type");
+                        String image_link = object.getString("image_link");
+                        int like_number = object.getInt("like_number");
+                        int dislike_number =  object.getInt("dislike_number");
+                        int view_count = object.getInt("view_count");
+                        Haberler haberlerim = new Haberler(id,like_number,dislike_number,
                                 view_count,title,content,type,image_link);
                         haberlerArrayList.add (haberlerim);
-                            System.out.println(haberlerArrayList.get(i)+"12345");
-
+                        System.out.println(haberlerArrayList.get(i).getName());
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
