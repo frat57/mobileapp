@@ -1,8 +1,10 @@
 package com.example.frat5.yazlab2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Haberler>haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         String urlPrefix = getResources().getString(R.string.url_prefix);
         URL = urlPrefix + URL;
         ArrayList <String> names  = new ArrayList<>();
@@ -46,21 +51,51 @@ public class MainActivity extends AppCompatActivity {
         names.add("Dünya");
         names.add("Ekonomi");
         names.add("Spor");
-        new arkaPlan().execute(URL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.img);
         mySpinner = (Spinner) findViewById(R.id.spinner);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         haberlerArrayList = new ArrayList<Haberler>();
-        adapter = new HaberlerAdapter(this,haberlerArrayList);
+        httpHandler = new HttpHandler();
+        String jsonString = httpHandler.makeServiceCall(URL);
+
+        Log.d("JSON_RESPONSE",jsonString);
+        if(jsonString !=  null ){
+            try {
+                JSONArray array = new JSONArray(jsonString);
+                for(int i=0; i< array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    int id =  object.getInt("id");
+                    String title = object.getString("name");
+                    String content = object.getString("content");
+                    String type = object.getString("type");
+                    String image_link = object.getString("image_link");
+                    int like_number = object.getInt("like_number");
+                    int dislike_number =  object.getInt("dislike_number");
+                    int view_count = object.getInt("view_count");
+                    Haberler haberlerim = new Haberler(id,like_number,dislike_number,
+                            view_count,title,content,type,image_link);
+                    haberlerArrayList.add (haberlerim);
+                    System.out.println(haberlerArrayList.get(i).getName());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
+        }
         recyclerView.setAdapter(adapter);
         text = (TextView) findViewById(R.id.title);
         Haberler haberler = new Haberler();
+        //new arkaPlan().execute(URL);
+        adapter = new HaberlerAdapter(this,haberlerArrayList);
+        recyclerView.setAdapter(adapter);
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -126,41 +161,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class arkaPlan extends AsyncTask<String,String,String>{
-        ArrayList<Haberler>haberlerArrayList = new ArrayList<>();
+        ArrayList<Haberler>haberlerArrayList;
 
         protected String doInBackground(String... params) {
-            httpHandler = new HttpHandler();
-            String jsonString = httpHandler.makeServiceCall(URL);
 
-            Log.d("JSON_RESPONSE",jsonString);
-            if(jsonString !=  null ){
-                try {
-                    JSONArray array = new JSONArray(jsonString);
-                    for(int i=0; i< array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        int id =  object.getInt("id");
-                        String title = object.getString("name");
-                        String content = object.getString("content");
-                        String type = object.getString("type");
-                        String image_link = object.getString("image_link");
-                        int like_number = object.getInt("like_number");
-                        int dislike_number =  object.getInt("dislike_number");
-                        int view_count = object.getInt("view_count");
-                        Haberler haberlerim = new Haberler(id,like_number,dislike_number,
-                                view_count,title,content,type,image_link);
-                        haberlerArrayList.add (haberlerim);
-                        System.out.println(haberlerArrayList.get(i).getName());
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
-            }
             return null;
         }
         protected void onPostExecute(String data){
+            super.onPostExecute(data);
+
         }
     }
     }
