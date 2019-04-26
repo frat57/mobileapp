@@ -4,6 +4,9 @@ public class Haberler {
     private int id,like_number,disslike_number,view_count;
     private String name;
 
+    public Haberler(){
+
+    }
     public Haberler(int id, int like_number, int disslike_number, int view_count, String name, String content, String type, String image_link) {
         this.id = id;
         this.like_number = like_number;
@@ -15,7 +18,7 @@ public class Haberler {
         this.image_link = image_link;
     }
 
-    public int getId() {
+    public int getId(int i) {
         return id;
     }
 

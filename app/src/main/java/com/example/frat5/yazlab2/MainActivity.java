@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,26 +20,22 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    HttpHandler httpHandler;
     private CarouselView carouselView;
     private ImageView imageView;
     private Spinner mySpinner;
     private TextView text;
     int[] sampleImages = {R.drawable.at, R.drawable.kedi, R.drawable.kopek, R.drawable.kunduz, R.drawable.sincap};
     final static String URL="http://192.168.1.104:8080/api/10news/1";
-
+    ArrayList<Haberler>haberlerArrayList;
+    RecyclerView recyclerView;
+    HaberlerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList <String> names  = new ArrayList<>();
@@ -45,15 +44,20 @@ public class MainActivity extends AppCompatActivity {
         names.add("Dünya");
         names.add("Ekonomi");
         names.add("Spor");
+        new arkaPlan().execute(URL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         imageView = (ImageView) findViewById(R.id.imageView);
         mySpinner = (Spinner) findViewById(R.id.spinner);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new HaberlerAdapter(this,haberlerArrayList);
+        recyclerView.setAdapter(adapter);
         text = (TextView) findViewById(R.id.title);
-        new arkaPlan().execute(URL);
+        Haberler haberler = new Haberler();
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -119,32 +123,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class arkaPlan extends AsyncTask<String,String,String>{
-        protected String doInBackground(String... params) {
-            try {
-            URL url = null;
-            url = new URL(params[0]);
-            //create the connection
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            String line = "";
-            //create your inputsream
-            InputStreamReader isr = new InputStreamReader(connection.getInputStream());
-            //read in the data from input stream, this can be done a variety of ways
-            BufferedReader reader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-                text.setText(sb.append(getTitle()));
-            }
-            isr.close();
-            reader.close();
-        } catch (IOException e) {
-            Log.e("HTTP GET:", e.toString());
-        }
-            return null;
-        }
+        ArrayList<Haberler>haberlerArrayList = new ArrayList<>();
 
+        protected String doInBackground(String... params) {
+            httpHandler = new HttpHandler();
+            String jsonString = httpHandler.makeServiceCall(URL);
+
+            Log.d("JSON_RESPONSE",jsonString);
+            if(jsonString !=  null){
+                try {
+                    System.out.println("Burdayim");
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    System.out.println("Burdayim2");
+                    JSONArray haberler = jsonObject.getJSONArray("news");
+                    System.out.println("Burdayim3");
+                    //id ler icin hepsini alıyoruz
+                    for (int i = 0; i <haberler.length() ; i++) {
+                        JSONObject haber = haberler.getJSONObject(i);
+
+                        int id =  haber.getInt("id");
+                        String title = haber.getString("name");
+                        String content = haber.getString("content");
+                        String type = haber.getString("type");
+                        String image_link = haber.getString("image_link");
+                        int like_number = haber.getInt("like_number");
+                        int disslike_number =  haber.getInt("disslike_number");
+                        int view_count = haber.getInt("view_count");
+                        Haberler haberlerim = new Haberler(id,like_number,disslike_number,
+                                view_count,title,content,type,image_link);
+                        haberlerArrayList.add (haberlerim);
+                            System.out.println(haberlerArrayList.get(i)+"12345");
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
+            }
+            return null;
         }
         protected void onPostExecute(String data){
         }
+    }
     }
