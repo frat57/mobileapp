@@ -65,8 +65,14 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
             super(itemView);
             image = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.title);
-            content = itemView.findViewById(R.id.desc);
+            content = itemView.findViewById(R.id.source);
             publishedAt = itemView.findViewById(R.id.publishedAt);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
         }
     }
 }
