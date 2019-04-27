@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

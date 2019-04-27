@@ -18,20 +18,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener{
+public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener {
 
     private Spinner mySpinner;
-    ArrayList<Haberler>haberlerArrayList;
+    ArrayList<Haberler> haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
-    private String URL="api/10news/1";
+    private String URL = "api/10news/ekonomi/1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String urlPrefix = getResources().getString(R.string.url_prefix);
         URL = urlPrefix + URL;
-        ArrayList<String> names  = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
         names.add("Ekonomi");
         names.add("AnaSayfa");
         names.add("Gündem");
@@ -47,85 +48,89 @@ public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItem
 
         haberlerArrayList = new ArrayList<Haberler>();
         LoadJSON();
-        adapter = new HaberlerAdapter(this,haberlerArrayList,this);
+        adapter = new HaberlerAdapter(this, haberlerArrayList, this);
         recyclerView.setAdapter(adapter);
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Ekonomi.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
-        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position).equals("HaberTürleri")){
+                if (parent.getItemAtPosition(position).equals("HaberTürleri")) {
                     //Home Page
-                }
-                else{
+                } else {
                     String item = parent.getItemAtPosition(position).toString();
-                    if(parent.getItemAtPosition(position).equals("AnaSayfa")){
+                    if (parent.getItemAtPosition(position).equals("AnaSayfa")) {
                         openHome();//Ana Sayfa
                     }
-                    if(parent.getItemAtPosition(position).equals("Gündem")){
+                    if (parent.getItemAtPosition(position).equals("Gündem")) {
                         openTrend();//Gundem ler sayfasi
                     }
-                    if(parent.getItemAtPosition(position).equals("Dünya")){
+                    if (parent.getItemAtPosition(position).equals("Dünya")) {
                         openWorld();//Dünya sayfasi
                     }
-                    if(parent.getItemAtPosition(position).equals("Spor")){
+                    if (parent.getItemAtPosition(position).equals("Spor")) {
                         openSpor();//Spor sayfasi
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
-    public void openTrend(){
-        Intent intent =new Intent(this,Trend.class);
+
+    public void openTrend() {
+        Intent intent = new Intent(this, Trend.class);
         startActivity(intent);
     }
-    public void openWorld(){
-        Intent intent =new Intent(this,World.class);
+
+    public void openWorld() {
+        Intent intent = new Intent(this, World.class);
         startActivity(intent);
     }
-    public void openSpor(){
-        Intent intent =new Intent(this,Spor.class);
+
+    public void openSpor() {
+        Intent intent = new Intent(this, Spor.class);
         startActivity(intent);
     }
-    public void openHome(){
-        Intent intent =new Intent(this,MainActivity.class);
+
+    public void openHome() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void LoadJSON(){
+
+    public void LoadJSON() {
         HttpHandler httpHandler = new HttpHandler();
         String jsonString = httpHandler.makeServiceCall(URL);
 
-        Log.d("JSON_RESPONSE",jsonString);
-        if(jsonString !=  null ){
+        Log.d("JSON_RESPONSE", jsonString);
+        if (jsonString != null) {
             try {
                 JSONArray array = new JSONArray(jsonString);
-                for(int i=0; i< array.length(); i++) {
+                for (int i = 0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
-                    if(  object.getString("type").equals("ekonomi")) {
-                        int id = object.getInt("id");
-                        String title = object.getString("name");
-                        String content = object.getString("content");
-                        String type = object.getString("type");
-                        String image_link = object.getString("image_link");
-                        int like_number = object.getInt("like_number");
-                        int dislike_number = object.getInt("dislike_number");
-                        int view_count = object.getInt("view_count");
-                        Haberler haberlerim = new Haberler(id, like_number, dislike_number,
-                                view_count, title, content, type, image_link);
-                        haberlerArrayList.add(haberlerim);
-                    }}
+                    int id = object.getInt("id");
+                    String title = object.getString("name");
+                    String content = object.getString("content");
+                    String type = object.getString("type");
+                    String image_link = object.getString("image_link");
+                    int like_number = object.getInt("like_number");
+                    int dislike_number = object.getInt("dislike_number");
+                    int view_count = object.getInt("view_count");
+                    Haberler haberlerim = new Haberler(id, like_number, dislike_number,
+                            view_count, title, content, type, image_link);
+                    haberlerArrayList.add(haberlerim);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else {
-            Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
+        } else {
+            Log.d("JSON_RESPONSE", "Sayfa kaynağı boş");
         }
     }
 

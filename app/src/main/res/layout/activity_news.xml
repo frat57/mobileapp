@@ -71,14 +71,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="35dp"
-                    android:background="@drawable/like" />
+                    android:background="@drawable/like"
+                    android:minWidth="24dip"
+                    android:minHeight="24dip" />
 
                 <TextView
                     android:id="@+id/likesayisi"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="35dp"
                     android:text=""
                     android:textColor="#606060" />
 
@@ -87,16 +89,18 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
+                    android:layout_marginStart="80dp"
                     android:layout_marginTop="35dp"
-                    android:background="@drawable/dislike" />
+                    android:background="@drawable/dislike"
+                    android:minWidth="24dip"
+                    android:minHeight="24dip" />
 
                 <TextView
                     android:id="@+id/dislikesayisi"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="135dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="35dp"
                     android:text=""
                     android:textColor="#606060" />
 
@@ -104,17 +108,17 @@
                     android:id="@+id/sayisi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="250dp"
+                    android:layout_marginStart="300dp"
                     android:layout_marginTop="35dp"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/g_r_nt_lenme_sayisi" />
 
                 <TextView
                     android:id="@+id/view_count"
-                    android:layout_width="20dp"
+                    android:layout_width="29dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="250dp"
-                    android:layout_marginTop="65dp"
+                    android:layout_marginStart="265dp"
+                    android:layout_marginTop="35dp"
                     android:text="" />
             </FrameLayout>
 

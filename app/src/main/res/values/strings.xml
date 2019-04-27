@@ -15,7 +15,7 @@
     <string name="haberler">HABERLER</string>
     <string name="welcome">Welcome</string>
     <string name="textview">TextView</string>
-    <string name="g_r_nt_lenme_sayisi">GÖRÜNTÜLENME SAYISI:</string>
+    <string name="g_r_nt_lenme_sayisi">görüntülenme</string>
     <string-array name="HaberTürleri">
         <item name="Home">Ana Sayfa</item>
         <item name="Trend">Gündem Haberleri</item>
