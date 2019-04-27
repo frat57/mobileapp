@@ -23,6 +23,7 @@ public class news extends AppCompatActivity implements HaberlerAdapter.OnItemCli
     private TextView likesayisi;
     private TextView dislikesayisi;
     private TextView sayisi;
+    private TextView publishedAt;
     private int like_number,disslike_number,View_count;
     private boolean flag = true;
     ImageView imageview;
@@ -38,6 +39,7 @@ public class news extends AppCompatActivity implements HaberlerAdapter.OnItemCli
         dislikesayisi = (TextView)findViewById(R.id.dislikesayisi);
         sayisi = (TextView)findViewById(R.id.view_count);
         imageview = (ImageView)findViewById(R.id.img);
+        publishedAt = (TextView)findViewById(R.id.publishedAt);
         Button like_button = (Button)findViewById(R.id.likeButton);
         Button dislike_button = (Button)findViewById(R.id.dislikeButton);
 
@@ -47,12 +49,14 @@ public class news extends AppCompatActivity implements HaberlerAdapter.OnItemCli
         like_number =  intent.getIntExtra("like_number",0);
         disslike_number =  intent.getIntExtra("disslike_number",0);
         View_count =  intent.getIntExtra("View_count",0);
+        String publish = intent.getStringExtra("date");
         View_count++;
         title.setText(name);
         source.setText(content);
         likesayisi.setText(String.valueOf(like_number));
         dislikesayisi.setText(String.valueOf(disslike_number));
         sayisi.setText(String.valueOf(View_count));
+        publishedAt.setText(publish);
 
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,35 +85,5 @@ public class news extends AppCompatActivity implements HaberlerAdapter.OnItemCli
     public void onItemClick(int position) {
         Intent intent = new Intent (this,news.class);
     }
-    public void LoadJSON(){
-        HttpHandler httpHandler = new HttpHandler();
-        String jsonString = httpHandler.makeServiceCall(URL);
 
-        Log.d("JSON_RESPONSE",jsonString);
-        if(jsonString !=  null ){
-            try {
-                JSONArray array = new JSONArray(jsonString);
-                for(int i=0; i< array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    if(  object.getString("name").equals("spor")) {
-                        int id =  object.getInt("id");
-                        String title = object.getString("name");
-                        String content = object.getString("content");
-                        String type = object.getString("type");
-                        String image_link = object.getString("image_link");
-                        int like_number = object.getInt("like_number");
-                        int dislike_number =  object.getInt("dislike_number");
-                        int view_count = object.getInt("view_count");
-                        Haberler haberlerim = new Haberler(id,like_number,dislike_number,
-                                view_count,title,content,type,image_link);
-                        haberlerArrayList.add (haberlerim);
-                    }}
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
-        }
-    }
 }
