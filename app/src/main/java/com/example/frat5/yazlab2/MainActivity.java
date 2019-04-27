@@ -2,6 +2,7 @@ package com.example.frat5.yazlab2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -27,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener{
     HttpHandler httpHandler;
     private CarouselView carouselView;
     private ImageView imageView;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         haberlerArrayList = new ArrayList<Haberler>();
+
         httpHandler = new HttpHandler();
         String jsonString = httpHandler.makeServiceCall(URL);
 
@@ -90,12 +92,17 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Log.d("JSON_RESPONSE","Sayfa kaynağı boş");
         }
-        recyclerView.setAdapter(adapter);
+
+        adapter = new HaberlerAdapter(this,haberlerArrayList,this);
+        recyclerView.setAdapter(adapter);/*
+        adapter.setOnItemClickListener(new HaberlerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                haberlerArrayList.get(position);
+            }
+        });*/
         text = (TextView) findViewById(R.id.title);
         Haberler haberler = new Haberler();
-        //new arkaPlan().execute(URL);
-        adapter = new HaberlerAdapter(this,haberlerArrayList);
-        recyclerView.setAdapter(adapter);
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -158,6 +165,13 @@ public class MainActivity extends AppCompatActivity {
     public void openSpor(){
         Intent intent =new Intent(this,Spor.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d("hobbala","onNoteClick: clicked.");
+       /* Intent intent = new Intent (this,news.class);
+        startActivity(intent);*/
     }
 
     class arkaPlan extends AsyncTask<String,String,String>{

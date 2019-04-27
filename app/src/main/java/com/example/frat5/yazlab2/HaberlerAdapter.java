@@ -1,14 +1,17 @@
 package com.example.frat5.yazlab2;
 
 import android.content.Context;
+import android.content.Intent;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -24,10 +27,12 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
     private TextView publishedAt;
     private TextView like_number;
     private TextView disslike_number;
+    private OnItemClickListener MonItemClickListener;
 
-    public HaberlerAdapter(Context context, ArrayList<Haberler> haberlerArrayList) {
+    public HaberlerAdapter(Context context, ArrayList<Haberler> haberlerArrayList,OnItemClickListener OnItemClickListener) {
         this.context = context;
         this.haberlerArrayList = haberlerArrayList;
+        this.MonItemClickListener = onItemClickListener;
     }
 
     private TextView view_count;
@@ -38,15 +43,20 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
     public HaberlerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.carditem,null);
-        return  new HaberlerViewHolder(view);
+        return  new HaberlerViewHolder(view,MonItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(HaberlerViewHolder haberlerViewAdapter, int i) {
+    public void onBindViewHolder(HaberlerViewHolder haberlerViewHolder, final int i) {
         Haberler haberler=haberlerArrayList.get(i);
-        haberlerViewAdapter.title.setText(haberler.getName());
-        haberlerViewAdapter.content.setText(haberler.getContent());
+        haberlerViewHolder.title.setText(haberler.getName());
+        haberlerViewHolder.content.setText(haberler.getContent());
+        haberlerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -56,23 +66,25 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
         this.onItemClickListener = onItemClickListener;
     }
     public interface OnItemClickListener{
-         void onItemClick(View view,int position);
+         void onItemClick(int position);
+
 }
-   public  class HaberlerViewHolder extends RecyclerView.ViewHolder{
+
+   public  class HaberlerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imageView;
         TextView title,content;
-        public HaberlerViewHolder(@NonNull View itemView) {
+        OnItemClickListener onItemClickListener;
+        public HaberlerViewHolder(@NonNull View itemView,OnItemClickListener onItemClickListener) {
             super(itemView);
             image = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.title);
             content = itemView.findViewById(R.id.source);
             publishedAt = itemView.findViewById(R.id.publishedAt);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    
-                }
-            });
+                itemView.setOnClickListener(this);
         }
-    }
+       @Override
+       public void onClick(View v) {
+            onItemClickListener.onItemClick(getAdapterPosition());
+       }
+   }
 }

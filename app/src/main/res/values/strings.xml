@@ -13,6 +13,7 @@
     <string name="to_do" />
     <string name="source" />
     <string name="haberler">HABERLER</string>
+    <string name="welcome">Welcome</string>
     <string-array name="HaberTürleri">
         <item name="Home">Ana Sayfa</item>
         <item name="Trend">Gündem Haberleri</item>
