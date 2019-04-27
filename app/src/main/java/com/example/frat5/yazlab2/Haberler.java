@@ -2,12 +2,14 @@ package com.example.frat5.yazlab2;
 
 public class Haberler {
     private int id,like_number,dislike_number,view_count;
-    private String name;
+
+    private String name,date;
 
     public Haberler(){
 
     }
-    public Haberler(int id, int like_number, int dislike_number, int view_count, String name, String content, String type, String image_link) {
+
+    public Haberler(int id, int like_number, int dislike_number, int view_count, String name, String content, String type, String image_link, String date) {
         this.id = id;
         this.like_number = like_number;
         this.dislike_number = dislike_number;
@@ -16,8 +18,16 @@ public class Haberler {
         this.content = content;
         this.type = type;
         this.image_link = image_link;
+        this.date = date;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
     public int getId() {
         return id;
     }

@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.HaberlerViewHolder> {
     Context context;
@@ -54,6 +56,7 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
         final Haberler haberler=haberlerArrayList.get(i);
         haberlerViewHolder.title.setText(haberler.getName());
         haberlerViewHolder.content.setText(haberler.getContent());
+        haberlerViewHolder.publishedAt.setText(haberler.getDate());
         haberlerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +67,7 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
                 intent.putExtra("disslike_number", haberler.getDisslike_number());
                 intent.putExtra("View_count", haberler.getView_count());
                 intent.putExtra("Image_link", haberler.getImage_link());
+                intent.putExtra("date",haberler.getDate());
                 context.startActivity(intent);
             }
         });
@@ -85,7 +89,7 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
 
    public  class HaberlerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imageView;
-        TextView title,content;
+        TextView title,content,publishedAt;
         OnItemClickListener onItemClickListener;
         public HaberlerViewHolder(@NonNull View itemView,OnItemClickListener onItemClickListener) {
             super(itemView);

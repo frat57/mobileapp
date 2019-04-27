@@ -16,7 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class World extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener {
     Spinner mySpinner;
@@ -127,9 +130,11 @@ public class World extends AppCompatActivity implements HaberlerAdapter.OnItemCl
                     int like_number = object.getInt("like_number");
                     int dislike_number = object.getInt("dislike_number");
                     int view_count = object.getInt("view_count");
-                    Haberler haberlerim = new Haberler(id, like_number, dislike_number,
-                            view_count, title, content, type, image_link);
-                    haberlerArrayList.add(haberlerim);
+                    String datem = object.getString("date");
+                    datem = datem.substring(0, datem.indexOf('T'));
+                    Haberler haberlerim = new Haberler(id,like_number,dislike_number,
+                            view_count,title,content,type,image_link,datem);
+                    haberlerArrayList.add (haberlerim);
                 }
 
             } catch (JSONException e) {

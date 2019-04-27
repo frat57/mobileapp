@@ -26,7 +26,11 @@ import com.synnapps.carouselview.ImageListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener{
 
@@ -82,8 +86,10 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
                     int like_number = object.getInt("like_number");
                     int dislike_number =  object.getInt("dislike_number");
                     int view_count = object.getInt("view_count");
+                    String datem = object.getString("date");
+                    datem = datem.substring(0, datem.indexOf('T'));
                     Haberler haberlerim = new Haberler(id,like_number,dislike_number,
-                            view_count,title,content,type,image_link);
+                            view_count,title,content,type,image_link,datem);
                     haberlerArrayList.add (haberlerim);
                     System.out.println(haberlerArrayList.get(i).getName());
                 }
@@ -99,8 +105,7 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
         recyclerView.setAdapter(adapter);
 
         text = (TextView) findViewById(R.id.title);
-        Haberler haberler = new Haberler();
-
+        final Haberler haberler = new Haberler();
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
@@ -136,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
             @Override
             public void setImageForPosition(int position, ImageView imageView) {
                 imageView.setImageResource(sampleImages[position]);
+                Haberler haberler=haberlerArrayList.get(position);
             }
         });
 
@@ -143,6 +149,16 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
             @Override
             public void onClick(int position) {
                 Toast.makeText(MainActivity.this, "Clicked item: "+ position, Toast.LENGTH_SHORT).show();
+                Haberler haberler=haberlerArrayList.get(position);
+                Intent intent = new Intent (MainActivity.this,news.class);
+                intent.putExtra("name", haberler.getName());
+                intent.putExtra("content", haberler.getContent());
+                intent.putExtra("like_number", haberler.getLike_number());
+                intent.putExtra("disslike_number", haberler.getDisslike_number());
+                intent.putExtra("View_count", haberler.getView_count());
+                intent.putExtra("Image_link", haberler.getImage_link());
+                intent.putExtra("date",haberler.getDate());
+                startActivity(intent);
             }
         });
 
