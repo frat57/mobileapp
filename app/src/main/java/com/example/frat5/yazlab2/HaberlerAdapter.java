@@ -3,17 +3,20 @@ package com.example.frat5.yazlab2;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.HaberlerViewHolder> {
@@ -48,13 +51,20 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
 
     @Override
     public void onBindViewHolder(HaberlerViewHolder haberlerViewHolder, final int i) {
-        Haberler haberler=haberlerArrayList.get(i);
+        final Haberler haberler=haberlerArrayList.get(i);
         haberlerViewHolder.title.setText(haberler.getName());
         haberlerViewHolder.content.setText(haberler.getContent());
         haberlerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent (context.getApplicationContext(),news.class);
+                intent.putExtra("name", haberler.getName());
+                intent.putExtra("content", haberler.getContent());
+                intent.putExtra("like_number", haberler.getLike_number());
+                intent.putExtra("disslike_number", haberler.getDisslike_number());
+                intent.putExtra("View_count", haberler.getView_count());
+                intent.putExtra("Image_link", haberler.getImage_link());
+                context.startActivity(intent);
             }
         });
     }
@@ -65,6 +75,9 @@ public class HaberlerAdapter extends RecyclerView.Adapter <HaberlerAdapter.Haber
     public void setOnItemClickListener(HaberlerAdapter.OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
+
+
+
     public interface OnItemClickListener{
          void onItemClick(int position);
 

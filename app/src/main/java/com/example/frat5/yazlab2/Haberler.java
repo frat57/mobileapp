@@ -18,7 +18,7 @@ public class Haberler {
         this.image_link = image_link;
     }
 
-    public int getId(int i) {
+    public int getId() {
         return id;
     }
 
@@ -85,5 +85,6 @@ public class Haberler {
     private String content;
     private String type;
     private String image_link;
+
 
 }

@@ -116,6 +116,7 @@ public class Spor extends AppCompatActivity implements HaberlerAdapter.OnItemCli
                 JSONArray array = new JSONArray(jsonString);
                 for(int i=0; i< array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
+                    if(  object.getString("type").equals("spor")) {
                     int id =  object.getInt("id");
                     String title = object.getString("name");
                     String content = object.getString("content");
@@ -127,8 +128,7 @@ public class Spor extends AppCompatActivity implements HaberlerAdapter.OnItemCli
                     Haberler haberlerim = new Haberler(id,like_number,dislike_number,
                             view_count,title,content,type,image_link);
                     haberlerArrayList.add (haberlerim);
-                    System.out.println(haberlerArrayList.get(i).getName());
-                }
+                }}
 
             } catch (JSONException e) {
                 e.printStackTrace();

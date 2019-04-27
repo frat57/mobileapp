@@ -85,10 +85,6 @@ public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItem
         Intent intent =new Intent(this,Trend.class);
         startActivity(intent);
     }
-    public void openEkonomi(){
-        Intent intent =new Intent(this,Ekonomi.class);
-        startActivity(intent);
-    }
     public void openWorld(){
         Intent intent =new Intent(this,World.class);
         startActivity(intent);
@@ -111,19 +107,19 @@ public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItem
                 JSONArray array = new JSONArray(jsonString);
                 for(int i=0; i< array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
-                    int id =  object.getInt("id");
-                    String title = object.getString("name");
-                    String content = object.getString("content");
-                    String type = object.getString("type");
-                    String image_link = object.getString("image_link");
-                    int like_number = object.getInt("like_number");
-                    int dislike_number =  object.getInt("dislike_number");
-                    int view_count = object.getInt("view_count");
-                    Haberler haberlerim = new Haberler(id,like_number,dislike_number,
-                            view_count,title,content,type,image_link);
-                    haberlerArrayList.add (haberlerim);
-                    System.out.println(haberlerArrayList.get(i).getName());
-                }
+                    if(  object.getString("type").equals("ekonomi")) {
+                        int id = object.getInt("id");
+                        String title = object.getString("name");
+                        String content = object.getString("content");
+                        String type = object.getString("type");
+                        String image_link = object.getString("image_link");
+                        int like_number = object.getInt("like_number");
+                        int dislike_number = object.getInt("dislike_number");
+                        int view_count = object.getInt("view_count");
+                        Haberler haberlerim = new Haberler(id, like_number, dislike_number,
+                                view_count, title, content, type, image_link);
+                        haberlerArrayList.add(haberlerim);
+                    }}
 
             } catch (JSONException e) {
                 e.printStackTrace();

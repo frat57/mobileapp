@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements HaberlerAdapter.OnItemClickListener{
+
     HttpHandler httpHandler;
     private CarouselView carouselView;
     private ImageView imageView;
@@ -94,13 +95,8 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
         }
 
         adapter = new HaberlerAdapter(this,haberlerArrayList,this);
-        recyclerView.setAdapter(adapter);/*
-        adapter.setOnItemClickListener(new HaberlerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                haberlerArrayList.get(position);
-            }
-        });*/
+        recyclerView.setAdapter(adapter);
+
         text = (TextView) findViewById(R.id.title);
         Haberler haberler = new Haberler();
 
@@ -174,16 +170,4 @@ public class MainActivity extends AppCompatActivity implements HaberlerAdapter.O
         startActivity(intent);*/
     }
 
-    class arkaPlan extends AsyncTask<String,String,String>{
-        ArrayList<Haberler>haberlerArrayList;
-
-        protected String doInBackground(String... params) {
-
-            return null;
-        }
-        protected void onPostExecute(String data){
-            super.onPostExecute(data);
-
-        }
-    }
     }
