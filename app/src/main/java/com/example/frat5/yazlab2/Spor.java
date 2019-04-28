@@ -28,7 +28,7 @@ public class Spor extends AppCompatActivity implements HaberlerAdapter.OnItemCli
     ArrayList<Haberler> haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
-    private String URL = "api/10news/spor/1";
+    private String URL = "api/typelists/spor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class Spor extends AppCompatActivity implements HaberlerAdapter.OnItemCli
                     //Home Page
                 } else {
                     String item = parent.getItemAtPosition(position).toString();
-                    if (parent.getItemAtPosition(position).equals("Home")) {
+                    if (parent.getItemAtPosition(position).equals("AnaSayfa")) {
                         openHome();//Ana Sayfa
                     }
                     if (parent.getItemAtPosition(position).equals("Gündem")) {
@@ -133,9 +133,9 @@ public class Spor extends AppCompatActivity implements HaberlerAdapter.OnItemCli
                     int view_count = object.getInt("view_count");
                     String datem = object.getString("date");
                     datem = datem.substring(0, datem.indexOf('T'));
-                    Haberler haberlerim = new Haberler(id,like_number,dislike_number,
-                            view_count,title,content,type,image_link,datem);
-                    haberlerArrayList.add (haberlerim);
+                    Haberler haberlerim = new Haberler(id, like_number, dislike_number,
+                            view_count, title, content, type, image_link, datem);
+                    haberlerArrayList.add(haberlerim);
                 }
 
             } catch (JSONException e) {

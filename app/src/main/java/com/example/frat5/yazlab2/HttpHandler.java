@@ -39,7 +39,7 @@ public class HttpHandler {
             e.printStackTrace();
         }finally{
             try{
-                is.close();;
+                is.close();
             }catch (IOException e)  {
 
             }

@@ -27,7 +27,7 @@ public class Ekonomi extends AppCompatActivity implements HaberlerAdapter.OnItem
     ArrayList<Haberler> haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
-    private String URL = "api/10news/ekonomi/1";
+    private String URL = "api/typelists/ekonomi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

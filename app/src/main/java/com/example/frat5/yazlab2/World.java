@@ -26,7 +26,7 @@ public class World extends AppCompatActivity implements HaberlerAdapter.OnItemCl
     ArrayList<Haberler> haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
-    private String URL = "api/10news/dunya/1";
+    private String URL = "api/typelists/dunya";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

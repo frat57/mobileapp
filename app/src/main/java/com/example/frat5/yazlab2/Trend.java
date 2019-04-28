@@ -26,7 +26,7 @@ public class Trend extends AppCompatActivity implements HaberlerAdapter.OnItemCl
     ArrayList<Haberler> haberlerArrayList;
     RecyclerView recyclerView;
     HaberlerAdapter adapter;
-    private String URL = "api/10news/gundem/1";
+    private String URL = "api/typelists/gundem";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -44,11 +44,11 @@ public class Haberler {
         this.like_number = like_number;
     }
 
-    public int getDisslike_number() {
+    public int getDislike_number() {
         return dislike_number;
     }
 
-    public void setDisslike_number(int disslike_number) {
+    public void setDislike_number(int disslike_number) {
         this.dislike_number = disslike_number;
     }
 
